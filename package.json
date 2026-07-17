@@ -1,0 +1,15 @@
+{
+  "name": "wei-skills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo for Agent Skills and MCP servers",
+  "license": "MIT",
+  "scripts": {
+    "install:skills": "./scripts/install.sh",
+    "uninstall:skills": "./scripts/uninstall.sh",
+    "list:skills": "./scripts/list.sh"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
