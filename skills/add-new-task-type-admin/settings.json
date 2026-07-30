@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls *)",
+      "Bash(ll *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(which *)",
+      "Bash(pwd)",
+      "Bash(file *)",
+      "Bash(du *)",
+      "Bash(df *)",
+      "Bash(echo *)",
+      "Bash(find *)",
+      "Bash(wc *)",
+      "Bash(stat *)",
+      "Bash(realpath *)",
+      "Bash(readlink *)"
+    ]
+  }
+}
