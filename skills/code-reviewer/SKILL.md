@@ -1,32 +1,43 @@
 ---
-allowed-tools: Bash(git:*), Bash(grep:*), Bash(find:*), Bash(cat:*), Bash(wc:*), Bash(ls:*)
-description: '对当前分支的代码变更进行 Code Review'
+name: code-reviewer
+description: >
+  对当前分支相对于目标分支的代码变更进行全面的 Code Review，输出结构化的审查报告。
+  当用户说「code review」「审查代码」「review 代码」「CR」时使用。
 ---
 
-## 任务
+# Skill: code-reviewer
+
+## Description
 
 对当前分支相对于目标分支的所有代码变更进行全面的 Code Review，输出结构化的审查报告。
 
+## Trigger
+
+在以下场景使用本 skill：
+
+- 用户要求「code review」「审查代码」「review 代码」「CR」
+- 用户想对当前分支的变更进行质量检查
+
 ## 输入参数
 
-- 目标分支（可选）：`$ARGUMENTS`
+- 目标分支（可选）：如果用户指定了目标分支，则使用用户指定的分支
 - 如果未传入，默认与 `master` 分支进行对比
 
-## 执行步骤
+## Steps
 
-### 1. 获取变更概览
+### Step 1: 获取变更概览
 
 - 执行 `git diff $TARGET_BRANCH...HEAD --stat` 查看变更文件列表和统计
 - 执行 `git log $TARGET_BRANCH...HEAD --oneline` 查看本分支所有 commit 记录
 - 确认当前分支名称：`git branch --show-current`
 
-### 2. 逐文件分析变更
+### Step 2: 逐文件分析变更
 
 - 执行 `git diff $TARGET_BRANCH...HEAD -- <file>` 查看每个变更文件的具体 diff
 - 对于新增文件，查看完整内容
 - 对于删除文件，记录删除原因
 
-### 3. 审查维度
+### Step 3: 审查维度
 
 请从以下维度进行审查，并对每个维度给出评分（✅ 通过 / ⚠️ 需关注 / ❌ 有问题）：
 
@@ -63,7 +74,7 @@ description: '对当前分支的代码变更进行 Code Review'
 - 敏感信息是否暴露
 - API 调用是否安全
 
-### 4. 输出审查报告
+### Step 4: 输出审查报告
 
 按以下格式输出：
 
@@ -108,7 +119,7 @@ description: '对当前分支的代码变更进行 Code Review'
 - 安全性：✅ / ⚠️ / ❌
 ```
 
-### 5. 注意事项
+### Step 5: 注意事项
 
 - 重点关注业务逻辑的正确性，而非代码风格的细枝末节
 - 对于有隐患的代码，给出具体的修复建议和示例代码

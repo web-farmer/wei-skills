@@ -1,31 +1,42 @@
 ---
-allowed-tools: Bash(git:*), Bash(grep:*), Bash(ls:*)
-description: '生成规范的 git commit message 并提交代码'
+name: git-commiter
+description: >
+  根据当前暂存区的代码变更，生成规范的中文 git commit message 并提交代码。
+  当用户说「提交代码」「git commit」「生成 commit message」时使用。
 ---
 
-## 任务
+# Skill: git-commiter
 
-根据当前暂存区（staged）的代码变更，生成规范的中文 git commit message 并在用户确认后提交
+## Description
+
+根据当前暂存区（staged）的代码变更，生成规范的中文 git commit message 并在用户确认后提交。
+
+## Trigger
+
+在以下场景使用本 skill：
+
+- 用户要求「提交代码」「git commit」「生成 commit message」
+- 用户想自动生成规范的 commit message 并提交
 
 ## 输入参数
 
-- 任务 ID（可选）：`$ARGUMENTS`
+- 任务 ID（可选）：如果用户传入了任务 ID，则使用该 ID 作为 scope
 
-## 执行步骤
+## Steps
 
-### 1. 确定任务 ID
+### Step 1: 确定任务 ID
 
-- 如果用户传入了任务 ID（即 `$ARGUMENTS` 不为空），则使用该 ID 作为 scope，格式为 `AIH-<任务ID>`
-- 如果用户未传入任务 ID（即 `$ARGUMENTS` 为空），则通过 `git log --oneline -1` 获取上一条 commit message，从中提取 `AIH-XXXX` 格式的任务 ID
+- 如果用户传入了任务 ID，则使用该 ID 作为 scope，格式为 `AIH-<任务ID>`
+- 如果用户未传入任务 ID，则通过 `git log --oneline -1` 获取上一条 commit message，从中提取 `AIH-XXXX` 格式的任务 ID
 - **无论如何，最终 commit message 中必须包含任务 ID**，如果两种方式都无法获取到任务 ID，则提示用户手动输入
 
-### 2. 分析代码变更
+### Step 2: 分析代码变更
 
 - 执行 `git diff --cached --stat` 和 `git diff --cached` 查看暂存区的变更内容
 - 如果暂存区为空，则执行 `git diff --stat` 和 `git status` 查看工作区变更，并提示用户先执行 `git add`
 - 分析变更的文件和内容，理解本次修改的目的和范围
 
-### 3. 生成 commit message
+### Step 3: 生成 commit message
 
 根据分析结果生成符合 Conventional Commits 规范的 commit message，格式为：
 
@@ -49,7 +60,7 @@ type(AIH-XXXX): subject
   - 按变更文件的重要性排序，核心变更在前
   - 总体长度控制在100个字符
 
-### 4. 确认并提交
+### Step 4: 确认并提交
 
 - 将生成的 commit message 展示给用户，格式如下：
 
